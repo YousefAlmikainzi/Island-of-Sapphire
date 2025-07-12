@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     [SerializeField] Transform playerCamera;
     [SerializeField][Range(0.0f, 0.5f)] float mouseSmoothTime = 0.03f;
     [SerializeField] bool cursorLock = true;
-    [SerializeField] float mouseSensitivity = 3.5f;
+    public float mouseSensitivity = 3.5f;
     [SerializeField] float Speed = 6.0f;
     [SerializeField][Range(0.0f, 0.5f)] float moveSmoothTime = 0.3f;
     [SerializeField] float gravity = -30f;
@@ -61,7 +61,7 @@ public class Movement : MonoBehaviour
 
     void UpdateMove()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, ground);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.5f, ground);
 
         Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         targetDir.Normalize();
