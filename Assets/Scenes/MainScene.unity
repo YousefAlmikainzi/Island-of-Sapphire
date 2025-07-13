@@ -6789,7 +6789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e764e24c42289ff46b4d342fb0aa110b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  go: {fileID: 0}
+  go: {fileID: 5352522280720291938, guid: 55610dcc688d74040be4775566a367ed, type: 3}
   questPos: {x: 559.0437, y: 58.59589, z: 525.8998}
 --- !u!1 &2057348487
 GameObject:
