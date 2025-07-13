@@ -4933,7 +4933,7 @@ MonoBehaviour:
   mouseSmoothTime: 0.02
   cursorLock: 1
   mouseSensitivity: 2.8
-  Speed: 9
+  Speed: 30
   moveSmoothTime: 0.125
   gravity: -30
   groundCheck: {fileID: 1016797026}
