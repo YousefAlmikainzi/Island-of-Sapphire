@@ -17,8 +17,13 @@ public class PickUp : MonoBehaviour
     //we want to disable the player looking around when rotating the object
     //example below 
     Movement mouseLookScript;
+
+    GloveAnimator gloveAnim;
+    public Vector3 grab_offset;
     void Start()
     {
+        gloveAnim = GameObject.Find("AnimatedGloves").GetComponent<GloveAnimator>();
+        
         LayerNumber = LayerMask.NameToLayer("holdLayer"); //if your holdLayer is named differently make sure to change this ""
 
         mouseLookScript = player.GetComponent<Movement>();
@@ -46,18 +51,18 @@ public class PickUp : MonoBehaviour
             {
                 if(canDrop == true)
                 {
-                    StopClipping(); //prevents object from clipping through walls
+                    // StopClipping(); //prevents object from clipping through walls
                     DropObject();
                 }
             }
         }
         if (heldObj != null) //if player is holding object
         {
-            MoveObject(); //keep object position at holdPos
-            RotateObject();
+            // MoveObject(); //keep object position at holdPos
+            // RotateObject();
             if (Input.GetKeyDown(KeyCode.Mouse0) && canDrop == true) //Mous0 (leftclick) is used to throw, change this if you want another button to be used)
             {
-                StopClipping();
+                // StopClipping();
                 ThrowObject();
             }
 
@@ -67,10 +72,14 @@ public class PickUp : MonoBehaviour
     {
         if (pickUpObj.GetComponent<Rigidbody>()) //make sure the object has a RigidBody
         {
+            gloveAnim.is_grabbing = true;
+            gloveAnim.PlayGrab();
+
             heldObj = pickUpObj; //assign heldObj to the object that was hit by the raycast (no longer == null)
             heldObjRb = pickUpObj.GetComponent<Rigidbody>(); //assign Rigidbody
             heldObjRb.isKinematic = true;
             heldObjRb.transform.parent = holdPos.transform; //parent object to holdposition
+            heldObj.transform.localPosition = Vector3.zero + grab_offset;
             heldObj.layer = LayerNumber; //change the object layer to the holdLayer
             //make sure object doesnt collide with player, it can cause weird bugs
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
@@ -78,6 +87,7 @@ public class PickUp : MonoBehaviour
     }
     void DropObject()
     {
+        gloveAnim.is_grabbing = false;
         //re-enable collision with player
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = 0; //object assigned back to default layer
@@ -114,6 +124,8 @@ public class PickUp : MonoBehaviour
     }
     void ThrowObject()
     {
+        gloveAnim.is_grabbing = false;
+        gloveAnim.PlayThrow();
         //same as drop function, but add force to object before undefining it
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = 0;

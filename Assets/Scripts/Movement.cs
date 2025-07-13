@@ -27,8 +27,10 @@ public class Movement : MonoBehaviour
     Vector2 currentDirVelocity;
     Vector3 velocity;
 
+    GloveAnimator gloveAnim;
     void Start()
     {
+        gloveAnim = GameObject.Find("AnimatedGloves").GetComponent<GloveAnimator>();
         controller = GetComponent<CharacterController>();
 
         if (cursorLock)
@@ -64,6 +66,16 @@ public class Movement : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.5f, ground);
 
         Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (targetDir.x > 0 || targetDir.y > 0)
+        {
+            gloveAnim.gWalkLoop();
+        }
+        else
+        {
+            gloveAnim.gIdleLoop();
+        }
+
         targetDir.Normalize();
 
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
